@@ -1,0 +1,19 @@
+logging.level.org.springframework: debug
+
+spring:
+  devtools:
+    restart:
+      additional-paths: /src
+
+server:
+  port: 3000
+
+app:
+  db-pg:
+    #    jdbc-url: ${DATABASE_JDBC_URL}
+    #    username: ${DATABASE_USERNAME}
+    #    password: ${DATABASE_PASSWORD}
+    jdbc-url: jdbc:postgresql://ec2-54-224-124-241.compute-1.amazonaws.com:5432/dc5l0llp5v3o3
+    username: hmzpbfdwwbzbyn
+    password: 0a4b70b1f5e5b2baa49e4618cfddea65955b8521989c7c5f554a5211ac37471f
+    pool-size: 30
