@@ -14,9 +14,6 @@ repositories {
 
 configurations {
     developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
-    }
 }
 
 dependencies {
