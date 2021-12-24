@@ -6,9 +6,9 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Post {
-    private UUID ID;
+    private UUID id;
     @JsonProperty("creator_account_id")
-    private UUID creatorAccountID;
+    private UUID creatorAccountId;
     private String title;
     private String content;
     @JsonProperty("created_at")
@@ -19,29 +19,29 @@ public class Post {
     public Post() {
     }
 
-    public Post(UUID ID, UUID creatorAccountID, String title, String content, Timestamp createdAt, Timestamp updatedAt) {
-        this.ID = ID;
-        this.creatorAccountID = creatorAccountID;
+    public Post(UUID id, UUID creatorAccountId, String title, String content, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.creatorAccountId = creatorAccountId;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public UUID getID() {
-        return ID;
+    public UUID getId() {
+        return id;
     }
 
-    public void setID(UUID ID) {
-        this.ID = ID;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UUID getCreatorAccountID() {
-        return creatorAccountID;
+    public UUID getCreatorAccountId() {
+        return creatorAccountId;
     }
 
-    public void setCreatorAccountID(UUID creatorAccountID) {
-        this.creatorAccountID = creatorAccountID;
+    public void setCreatorAccountId(UUID creatorAccountId) {
+        this.creatorAccountId = creatorAccountId;
     }
 
     public String getTitle() {

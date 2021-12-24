@@ -6,11 +6,11 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Fund {
-    private UUID ID;
+    private UUID id;
     @JsonProperty("post_id")
-    private UUID postID;
+    private UUID postId;
     @JsonProperty("sponsor_account_id")
-    private UUID sponsorAccountID;
+    private UUID sponsorAccountId;
     private String content;
     private Double amount;
     @JsonProperty("created_at")
@@ -21,38 +21,38 @@ public class Fund {
     public Fund() {
     }
 
-    public Fund(UUID ID, UUID postID, UUID sponsorAccountID, String content, Double amount, Timestamp createdAt, Timestamp updatedAt) {
-        this.ID = ID;
-        this.postID = postID;
-        this.sponsorAccountID = sponsorAccountID;
+    public Fund(UUID id, UUID postId, UUID sponsorAccountId, String content, Double amount, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.postId = postId;
+        this.sponsorAccountId = sponsorAccountId;
         this.content = content;
         this.amount = amount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public UUID getID() {
-        return ID;
+    public UUID getId() {
+        return id;
     }
 
-    public void setID(UUID ID) {
-        this.ID = ID;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UUID getPostID() {
-        return postID;
+    public UUID getPostId() {
+        return postId;
     }
 
-    public void setPostID(UUID postID) {
-        this.postID = postID;
+    public void setPostId(UUID postId) {
+        this.postId = postId;
     }
 
-    public UUID getSponsorAccountID() {
-        return sponsorAccountID;
+    public UUID getSponsorAccountId() {
+        return sponsorAccountId;
     }
 
-    public void setSponsorAccountID(UUID sponsorAccountID) {
-        this.sponsorAccountID = sponsorAccountID;
+    public void setSponsorAccountId(UUID sponsorAccountId) {
+        this.sponsorAccountId = sponsorAccountId;
     }
 
     public String getContent() {

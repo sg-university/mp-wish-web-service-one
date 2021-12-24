@@ -24,15 +24,15 @@ public class PostUpRepository {
     }
 
     public List<PostUp> readAll(Map<String, String> filter) {
-        String sql = "select id, post_id as postID, upper_account_id as upperAccountID, created_at, updated_at from post_up";
+        String sql = "select id, post_id, upper_account_id, created_at, updated_at from post_up";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(PostUp.class), filter.values().toArray());
     }
 
-    public PostUp readOneByID(UUID ID) {
-        String sql = "select id, post_id as postID, upper_account_id as upperAccountID, created_at, updated_at from post_up where id = ?";
+    public PostUp readOneById(UUID Id) {
+        String sql = "select id, post_id, upper_account_id, created_at, updated_at from post_up where id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostUp.class), ID);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostUp.class), Id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -40,16 +40,16 @@ public class PostUpRepository {
 
     public Integer createOne(PostUp postUpToCreate) {
         String sql = "insert into post_up (id, post_id, upper_account_id, created_at, updated_at) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, postUpToCreate.getID(), postUpToCreate.getPostID(), postUpToCreate.getUpperAccountID(), postUpToCreate.getCreatedAt(), postUpToCreate.getUpdatedAt());
+        return jdbcTemplate.update(sql, postUpToCreate.getId(), postUpToCreate.getPostId(), postUpToCreate.getUpperAccountId(), postUpToCreate.getCreatedAt(), postUpToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneByID(UUID ID, PostUp postUpToUpdate) {
+    public Integer updateOneById(UUID Id, PostUp postUpToUpdate) {
         String sql = "update post_up set post_id = ?, upper_account_id = ?, created_at = ?, updated_at = ? where id = ?";
-        return jdbcTemplate.update(sql, postUpToUpdate.getPostID(), postUpToUpdate.getUpperAccountID(), postUpToUpdate.getCreatedAt(), postUpToUpdate.getUpdatedAt(), ID);
+        return jdbcTemplate.update(sql, postUpToUpdate.getPostId(), postUpToUpdate.getUpperAccountId(), postUpToUpdate.getCreatedAt(), postUpToUpdate.getUpdatedAt(), Id);
     }
 
-    public Integer deleteOneByID(UUID ID) {
+    public Integer deleteOneById(UUID Id) {
         String sql = "delete from post_up where id = ?";
-        return jdbcTemplate.update(sql, ID);
+        return jdbcTemplate.update(sql, Id);
     }
 }

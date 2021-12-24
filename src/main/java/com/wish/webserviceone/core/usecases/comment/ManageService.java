@@ -33,11 +33,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Comment> readOneByID(UUID ID) {
+    public Result<Comment> readOneById(UUID Id) {
         Comment content = null;
         String status = null;
         try {
-            content = commentRepository.readOneByID(ID);
+            content = commentRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -54,7 +54,7 @@ public class ManageService {
         Comment content = null;
         String status = null;
         try {
-            commentToCreate.setID(UUID.randomUUID());
+            commentToCreate.setId(UUID.randomUUID());
             commentToCreate.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             commentToCreate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Integer rowAffected = commentRepository.createOne(commentToCreate);
@@ -67,16 +67,16 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Comment> updateOneByID(UUID ID, Comment commentToUpdate) {
+    public Result<Comment> updateOneById(UUID Id, Comment commentToUpdate) {
         Comment content = null;
         String status = null;
         try {
-            content = commentRepository.readOneByID(ID);
+            content = commentRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
                 commentToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = commentRepository.updateOneByID(ID, commentToUpdate);
+                Integer rowAffected = commentRepository.updateOneById(Id, commentToUpdate);
                 content = commentToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,15 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Comment> deleteOneByID(UUID ID) {
+    public Result<Comment> deleteOneById(UUID Id) {
         Comment content = null;
         String status = null;
         try {
-            content = commentRepository.readOneByID(ID);
+            content = commentRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = commentRepository.deleteOneByID(ID);
+                Integer rowAffected = commentRepository.deleteOneById(Id);
                 status = "deleted";
             }
         } catch (Exception e) {

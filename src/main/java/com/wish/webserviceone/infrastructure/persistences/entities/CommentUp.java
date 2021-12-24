@@ -2,16 +2,15 @@ package com.wish.webserviceone.infrastructure.persistences.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 public class CommentUp {
-    private UUID ID;
+    private UUID id;
     @JsonProperty("post_id")
-    private UUID postID;
+    private UUID postId;
     @JsonProperty("upper_account_id")
-    private UUID upperAccountID;
+    private UUID upperAccountId;
     @JsonProperty("created_at")
     private Timestamp createdAt;
     @JsonProperty("updated_at")
@@ -20,37 +19,37 @@ public class CommentUp {
     public CommentUp() {
     }
 
-    public CommentUp(UUID ID, UUID postID, UUID governorAccountID, Timestamp createdAt, Timestamp updatedAt) {
-        this.ID = ID;
-        this.postID = postID;
-        this.upperAccountID = governorAccountID;
+    public CommentUp(UUID id, UUID postId, UUID upperAccountId, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.postId = postId;
+        this.upperAccountId = upperAccountId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public UUID getID() {
-        return ID;
+    public UUID getId() {
+        return id;
     }
 
-    public void setID(UUID ID) {
-        this.ID = ID;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UUID getPostID() {
-        return postID;
+    public UUID getPostId() {
+        return postId;
     }
 
 
-    public void setPostID(UUID postID) {
-        this.postID = postID;
+    public void setPostId(UUID postId) {
+        this.postId = postId;
     }
 
-    public UUID getUpperAccountID() {
-        return upperAccountID;
+    public UUID getUpperAccountId() {
+        return upperAccountId;
     }
 
-    public void setUpperAccountID(UUID upperAccountID) {
-        this.upperAccountID = upperAccountID;
+    public void setUpperAccountId(UUID upperAccountId) {
+        this.upperAccountId = upperAccountId;
     }
 
     public Timestamp getCreatedAt() {

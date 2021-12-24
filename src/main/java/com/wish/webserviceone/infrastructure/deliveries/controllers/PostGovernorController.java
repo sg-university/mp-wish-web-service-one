@@ -48,8 +48,8 @@ public class PostGovernorController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Result<PostGovernor>> readOneByID(@PathVariable("id") UUID ID) {
-        Result<PostGovernor> result = governorService.readOneByID(ID);
+    public ResponseEntity<Result<PostGovernor>> readOneById(@PathVariable("id") UUID Id) {
+        Result<PostGovernor> result = governorService.readOneById(Id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "read" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -78,8 +78,8 @@ public class PostGovernorController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Result<PostGovernor>> updateOneByID(@PathVariable("id") UUID ID, @RequestBody PostGovernor postGovernorToUpdate) {
-        Result<PostGovernor> result = governorService.updateOneByID(ID, postGovernorToUpdate);
+    public ResponseEntity<Result<PostGovernor>> updateOneById(@PathVariable("id") UUID Id, @RequestBody PostGovernor postGovernorToUpdate) {
+        Result<PostGovernor> result = governorService.updateOneById(Id, postGovernorToUpdate);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "updated" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -94,8 +94,8 @@ public class PostGovernorController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<PostGovernor>> deleteOneByID(@PathVariable("id") UUID ID) {
-        Result<PostGovernor> result = governorService.deleteOneByID(ID);
+    public ResponseEntity<Result<PostGovernor>> deleteOneById(@PathVariable("id") UUID Id) {
+        Result<PostGovernor> result = governorService.deleteOneById(Id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "deleted" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;

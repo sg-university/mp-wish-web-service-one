@@ -6,11 +6,11 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class PostGovernor {
-    private UUID ID;
+    private UUID id;
     @JsonProperty("post_id")
-    private UUID postID;
+    private UUID postId;
     @JsonProperty("governor_account_id")
-    private UUID governorAccountID;
+    private UUID governorAccountId;
     @JsonProperty("created_at")
     private Timestamp createdAt;
     @JsonProperty("updated_at")
@@ -19,36 +19,36 @@ public class PostGovernor {
     public PostGovernor() {
     }
 
-    public PostGovernor(UUID ID, UUID postID, UUID governorAccountID, Timestamp createdAt, Timestamp updatedAt) {
-        this.ID = ID;
-        this.postID = postID;
-        this.governorAccountID = governorAccountID;
+    public PostGovernor(UUID id, UUID postId, UUID governorAccountId, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.postId = postId;
+        this.governorAccountId = governorAccountId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public UUID getID() {
-        return ID;
+    public UUID getId() {
+        return id;
     }
 
-    public void setID(UUID ID) {
-        this.ID = ID;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UUID getPostID() {
-        return postID;
+    public UUID getPostId() {
+        return postId;
     }
 
-    public void setPostID(UUID postID) {
-        this.postID = postID;
+    public void setPostId(UUID postId) {
+        this.postId = postId;
     }
 
-    public UUID getGovernorAccountID() {
-        return governorAccountID;
+    public UUID getGovernorAccountId() {
+        return governorAccountId;
     }
 
-    public void setGovernorAccountID(UUID governorAccountID) {
-        this.governorAccountID = governorAccountID;
+    public void setGovernorAccountId(UUID governorAccountId) {
+        this.governorAccountId = governorAccountId;
     }
 
     public Timestamp getCreatedAt() {

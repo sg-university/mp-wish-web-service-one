@@ -3,6 +3,7 @@ package com.wish.webserviceone.infrastructure.deliveries.controllers;
 import com.wish.webserviceone.core.usecases.authentication.LoginService;
 import com.wish.webserviceone.core.usecases.authentication.RegisterService;
 import com.wish.webserviceone.infrastructure.deliveries.contracts.CredentialsByEmail;
+import com.wish.webserviceone.infrastructure.deliveries.contracts.CredentialsByHuawei;
 import com.wish.webserviceone.infrastructure.deliveries.contracts.Result;
 import com.wish.webserviceone.infrastructure.persistences.entities.Account;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,11 +33,12 @@ public class AuthenticationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "logged_in", content = @Content(schema = @Schema(implementation = Result.class))),
             @ApiResponse(responseCode = "404", description = "not_found", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "403", description = "invalid_credentials", content = @Content(schema = @Schema(implementation = Result.class))),
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PostMapping("/login/email")
     public ResponseEntity<Result<Account>> loginByEmail(@RequestBody CredentialsByEmail credentials) {
-        Result<Account> result = loginService.loginByEmail(credentials.getEmail(), credentials.getPassword());
+        Result<Account> result = loginService.loginByEmail(credentials);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "logged_in" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -53,8 +55,44 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PostMapping("/register/email")
-    public ResponseEntity<Result<Account>> registerByEmail(@RequestBody Account accountToCreate) {
-        Result<Account> result = registerService.registerByEmail(accountToCreate);
+    public ResponseEntity<Result<Account>> registerByEmail(@RequestBody CredentialsByEmail credentials) {
+        Result<Account> result = registerService.registerByEmail(credentials);
+        HttpStatus httpStatus = switch (result.getStatus()) {
+            case "registered" -> HttpStatus.OK;
+            case "exists" -> HttpStatus.CONFLICT;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return new ResponseEntity<>(result, httpStatus);
+    }
+
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "logged_in", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "404", description = "not_found", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "403", description = "invalid_credentials", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
+    })
+    @PostMapping("/login/huawei/open-id")
+    public ResponseEntity<Result<Account>> loginByHuaweiOpenId(@RequestBody CredentialsByHuawei credentials) {
+        Result<Account> result = loginService.loginByHuaweiOpenId(credentials);
+        HttpStatus httpStatus = switch (result.getStatus()) {
+            case "logged_in" -> HttpStatus.OK;
+            case "not_found" -> HttpStatus.NOT_FOUND;
+            case "invalid_credentials" -> HttpStatus.FORBIDDEN;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return new ResponseEntity<>(result, httpStatus);
+    }
+
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "registered", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "409", description = "exists", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
+    })
+    @PostMapping("/register/huawei/open-id")
+    public ResponseEntity<Result<Account>> registerByHuaweiOpenId(@RequestBody CredentialsByHuawei credentials) {
+        Result<Account> result = registerService.registerByHuaweiOpenId(credentials);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "registered" -> HttpStatus.OK;
             case "exists" -> HttpStatus.CONFLICT;

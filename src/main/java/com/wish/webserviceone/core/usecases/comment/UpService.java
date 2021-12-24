@@ -33,11 +33,11 @@ public class UpService {
         return new Result<>(content, status);
     }
 
-    public Result<CommentUp> readOneByID(UUID ID) {
+    public Result<CommentUp> readOneById(UUID Id) {
         CommentUp content = null;
         String status = null;
         try {
-            content = commentUpRepository.readOneByID(ID);
+            content = commentUpRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -54,7 +54,7 @@ public class UpService {
         CommentUp content = null;
         String status = null;
         try {
-            commentUpToCreate.setID(UUID.randomUUID());
+            commentUpToCreate.setId(UUID.randomUUID());
             commentUpToCreate.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             commentUpToCreate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Integer rowAffected = commentUpRepository.createOne(commentUpToCreate);
@@ -67,16 +67,16 @@ public class UpService {
         return new Result<>(content, status);
     }
 
-    public Result<CommentUp> updateOneByID(UUID ID, CommentUp commentUpToUpdate) {
+    public Result<CommentUp> updateOneById(UUID Id, CommentUp commentUpToUpdate) {
         CommentUp content = null;
         String status = null;
         try {
-            content = commentUpRepository.readOneByID(ID);
+            content = commentUpRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
                 commentUpToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = commentUpRepository.updateOneByID(ID, commentUpToUpdate);
+                Integer rowAffected = commentUpRepository.updateOneById(Id, commentUpToUpdate);
                 content = commentUpToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,15 @@ public class UpService {
         return new Result<>(content, status);
     }
 
-    public Result<CommentUp> deleteOneByID(UUID ID) {
+    public Result<CommentUp> deleteOneById(UUID Id) {
         CommentUp content = null;
         String status = null;
         try {
-            content = commentUpRepository.readOneByID(ID);
+            content = commentUpRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = commentUpRepository.deleteOneByID(ID);
+                Integer rowAffected = commentUpRepository.deleteOneById(Id);
                 status = "deleted";
             }
         } catch (Exception e) {

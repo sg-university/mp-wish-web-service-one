@@ -24,15 +24,15 @@ public class CommentRepository {
     }
 
     public List<Comment> readAll(Map<String, String> filter) {
-        String sql = "select id, creator_account_id as creatorAccountID, post_id as postID, content, created_at, updated_at from comment";
+        String sql = "select id, creator_account_id, post_id, content, created_at, updated_at from comment";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Comment.class), filter.values().toArray());
     }
 
-    public Comment readOneByID(UUID ID) {
-        String sql = "select id, creator_account_id as creatorAccountID, post_id as postID, content, created_at, updated_at from comment where id=?";
+    public Comment readOneById(UUID Id) {
+        String sql = "select id, creator_account_id, post_id, content, created_at, updated_at from comment where id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Comment.class), ID);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Comment.class), Id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
@@ -41,17 +41,17 @@ public class CommentRepository {
 
     public Integer createOne(Comment commentToCreate) {
         String sql = "insert into comment (id, creator_account_id, post_id, content, created_at, updated_at) values (?, ?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, commentToCreate.getID(), commentToCreate.getCreatorAccountID(), commentToCreate.getContent(), commentToCreate.getCreatedAt(), commentToCreate.getUpdatedAt());
+        return jdbcTemplate.update(sql, commentToCreate.getId(), commentToCreate.getCreatorAccountId(), commentToCreate.getContent(), commentToCreate.getCreatedAt(), commentToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneByID(UUID ID, Comment commentToUpdate) {
+    public Integer updateOneById(UUID Id, Comment commentToUpdate) {
         String sql = "update comment set creator_account_id=?, post_id=?, content=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, commentToUpdate.getCreatorAccountID(), commentToUpdate.getContent(), commentToUpdate.getCreatedAt(), commentToUpdate.getUpdatedAt(), ID);
+        return jdbcTemplate.update(sql, commentToUpdate.getCreatorAccountId(), commentToUpdate.getContent(), commentToUpdate.getCreatedAt(), commentToUpdate.getUpdatedAt(), Id);
     }
 
-    public Integer deleteOneByID(UUID ID) {
+    public Integer deleteOneById(UUID Id) {
         String sql = "delete from comment where id=?";
-        return jdbcTemplate.update(sql, ID);
+        return jdbcTemplate.update(sql, Id);
     }
 
 }

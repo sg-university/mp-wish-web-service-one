@@ -48,8 +48,8 @@ public class PostUpController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Result<PostUp>> readOneByID(@PathVariable("id") UUID ID) {
-        Result<PostUp> result = upService.readOneByID(ID);
+    public ResponseEntity<Result<PostUp>> readOneById(@PathVariable("id") UUID Id) {
+        Result<PostUp> result = upService.readOneById(Id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "read" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -78,8 +78,8 @@ public class PostUpController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Result<PostUp>> updateOneByID(@PathVariable("id") UUID ID, @RequestBody PostUp postUpToUpdate) {
-        Result<PostUp> result = upService.updateOneByID(ID, postUpToUpdate);
+    public ResponseEntity<Result<PostUp>> updateOneById(@PathVariable("id") UUID Id, @RequestBody PostUp postUpToUpdate) {
+        Result<PostUp> result = upService.updateOneById(Id, postUpToUpdate);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "updated" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -94,8 +94,8 @@ public class PostUpController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<PostUp>> deleteOneByID(@PathVariable("id") UUID ID) {
-        Result<PostUp> result = upService.deleteOneByID(ID);
+    public ResponseEntity<Result<PostUp>> deleteOneById(@PathVariable("id") UUID Id) {
+        Result<PostUp> result = upService.deleteOneById(Id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "deleted" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;

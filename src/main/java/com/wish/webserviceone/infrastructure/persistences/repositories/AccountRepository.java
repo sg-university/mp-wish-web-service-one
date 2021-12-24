@@ -29,10 +29,10 @@ public class AccountRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Account.class), filter.values().toArray());
     }
 
-    public Account readOneByID(UUID ID) {
+    public Account readOneById(UUID Id) {
         String sql = "select id, username, name, email, password, created_at, updated_at from account where id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Account.class), ID);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Account.class), Id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
@@ -71,17 +71,17 @@ public class AccountRepository {
 
     public Integer createOne(Account accountToCreate) {
         String sql = "insert into account (id, username, name, email, password, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, accountToCreate.getID(), accountToCreate.getUsername(), accountToCreate.getName(), accountToCreate.getEmail(), accountToCreate.getPassword(), accountToCreate.getCreatedAt(), accountToCreate.getUpdatedAt());
+        return jdbcTemplate.update(sql, accountToCreate.getId(), accountToCreate.getUsername(), accountToCreate.getName(), accountToCreate.getEmail(), accountToCreate.getPassword(), accountToCreate.getCreatedAt(), accountToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneByID(UUID ID, Account accountToUpdate) {
+    public Integer updateOneById(UUID Id, Account accountToUpdate) {
         String sql = "update account set username=?, name=?, email=?, password=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, accountToUpdate.getUsername(), accountToUpdate.getName(), accountToUpdate.getEmail(), accountToUpdate.getPassword(), accountToUpdate.getCreatedAt(), accountToUpdate.getUpdatedAt(), ID);
+        return jdbcTemplate.update(sql, accountToUpdate.getUsername(), accountToUpdate.getName(), accountToUpdate.getEmail(), accountToUpdate.getPassword(), accountToUpdate.getCreatedAt(), accountToUpdate.getUpdatedAt(), Id);
     }
 
-    public Integer deleteOneByID(UUID ID) {
+    public Integer deleteOneById(UUID Id) {
         String sql = "delete from account where id=?";
-        return jdbcTemplate.update(sql, ID);
+        return jdbcTemplate.update(sql, Id);
     }
 
 }

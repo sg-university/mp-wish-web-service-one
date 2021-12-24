@@ -2,12 +2,11 @@ package com.wish.webserviceone.infrastructure.persistences.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Account {
-    private UUID ID;
+    private UUID id;
     private String username;
     private String name;
     private String email;
@@ -20,20 +19,20 @@ public class Account {
     public Account() {
     }
 
-    public Account(UUID ID, String username, String name, String email, String password) {
-        this.ID = ID;
+    public Account(UUID id, String username, String name, String email, String password) {
+        this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public UUID getID() {
-        return ID;
+    public UUID getId() {
+        return id;
     }
 
-    public void setID(UUID ID) {
-        this.ID = ID;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getUsername() {

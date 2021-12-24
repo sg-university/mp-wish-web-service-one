@@ -33,11 +33,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Account> readOneByID(UUID ID) {
+    public Result<Account> readOneById(UUID Id) {
         Account content = null;
         String status = null;
         try {
-            content = accountRepository.readOneByID(ID);
+            content = accountRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -105,7 +105,7 @@ public class ManageService {
         Account content = null;
         String status = null;
         try {
-            accountToCreate.setID(UUID.randomUUID());
+            accountToCreate.setId(UUID.randomUUID());
             accountToCreate.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             accountToCreate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Account accountByUsername = accountRepository.readOneByUsername(accountToCreate.getUsername());
@@ -124,11 +124,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Account> updateOneByID(UUID ID, Account accountToUpdate) {
+    public Result<Account> updateOneById(UUID Id, Account accountToUpdate) {
         Account content = null;
         String status = null;
         try {
-            content = accountRepository.readOneByID(ID);
+            content = accountRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -140,7 +140,7 @@ public class ManageService {
                     status = "exists";
                 } else {
                     accountToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                    Integer rowAffected = accountRepository.updateOneByID(ID, accountToUpdate);
+                    Integer rowAffected = accountRepository.updateOneById(Id, accountToUpdate);
                     content = accountToUpdate;
                     status = "updated";
                 }
@@ -152,15 +152,15 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Account> deleteOneByID(UUID ID) {
+    public Result<Account> deleteOneById(UUID Id) {
         Account content = null;
         String status = null;
         try {
-            content = accountRepository.readOneByID(ID);
+            content = accountRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = accountRepository.deleteOneByID(ID);
+                Integer rowAffected = accountRepository.deleteOneById(Id);
                 status = "deleted";
             }
         } catch (Exception e) {

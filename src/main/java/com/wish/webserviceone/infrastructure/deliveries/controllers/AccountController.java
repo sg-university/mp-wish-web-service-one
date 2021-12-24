@@ -48,8 +48,8 @@ public class AccountController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Result<Account>> readOneByID(@PathVariable("id") UUID ID) {
-        Result<Account> result = manageService.readOneByID(ID);
+    public ResponseEntity<Result<Account>> readOneById(@PathVariable("id") UUID Id) {
+        Result<Account> result = manageService.readOneById(Id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "read" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -80,8 +80,8 @@ public class AccountController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Result<Account>> updateOneByID(@PathVariable("id") UUID ID, @RequestBody Account accountToUpdate) {
-        Result<Account> result = manageService.updateOneByID(ID, accountToUpdate);
+    public ResponseEntity<Result<Account>> updateOneById(@PathVariable("id") UUID Id, @RequestBody Account accountToUpdate) {
+        Result<Account> result = manageService.updateOneById(Id, accountToUpdate);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "updated" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -97,8 +97,8 @@ public class AccountController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<Account>> deleteOneByID(@PathVariable("id") UUID ID) {
-        Result<Account> result = manageService.deleteOneByID(ID);
+    public ResponseEntity<Result<Account>> deleteOneById(@PathVariable("id") UUID Id) {
+        Result<Account> result = manageService.deleteOneById(Id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "deleted" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;

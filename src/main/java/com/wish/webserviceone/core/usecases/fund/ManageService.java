@@ -33,11 +33,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Fund> readOneByID(UUID ID) {
+    public Result<Fund> readOneById(UUID Id) {
         Fund content = null;
         String status = null;
         try {
-            content = fundRepository.readOneByID(ID);
+            content = fundRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -54,7 +54,7 @@ public class ManageService {
         Fund content = null;
         String status = null;
         try {
-            fundToCreate.setID(UUID.randomUUID());
+            fundToCreate.setId(UUID.randomUUID());
             fundToCreate.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             fundToCreate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Integer rowAffected = fundRepository.createOne(fundToCreate);
@@ -67,16 +67,16 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Fund> updateOneByID(UUID ID, Fund fundToUpdate) {
+    public Result<Fund> updateOneById(UUID Id, Fund fundToUpdate) {
         Fund content = null;
         String status = null;
         try {
-            content = fundRepository.readOneByID(ID);
+            content = fundRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
                 fundToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = fundRepository.updateOneByID(ID, fundToUpdate);
+                Integer rowAffected = fundRepository.updateOneById(Id, fundToUpdate);
                 content = fundToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,15 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Fund> deleteOneByID(UUID ID) {
+    public Result<Fund> deleteOneById(UUID Id) {
         Fund content = null;
         String status = null;
         try {
-            content = fundRepository.readOneByID(ID);
+            content = fundRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = fundRepository.deleteOneByID(ID);
+                Integer rowAffected = fundRepository.deleteOneById(Id);
                 status = "deleted";
             }
         } catch (Exception e) {

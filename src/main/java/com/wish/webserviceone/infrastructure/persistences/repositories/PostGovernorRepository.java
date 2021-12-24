@@ -24,15 +24,15 @@ public class PostGovernorRepository {
     }
 
     public List<PostGovernor> readAll(Map<String, String> filter) {
-        String sql = "select id, post_id as postID, governor_account_id as governorAccountID, created_at, updated_at from post_governor";
+        String sql = "select id, post_id, governor_account_id, created_at, updated_at from post_governor";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), filter.values().toArray());
     }
 
-    public PostGovernor readOneByID(UUID ID) {
-        String sql = "select id, post_id as postID, governor_account_id as governorAccountID, created_at, updated_at from post_governor where id = ?";
+    public PostGovernor readOneById(UUID Id) {
+        String sql = "select id, post_id, governor_account_id, created_at, updated_at from post_governor where id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), ID);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), Id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -40,16 +40,16 @@ public class PostGovernorRepository {
 
     public Integer createOne(PostGovernor postGovernorToCreate) {
         String sql = "insert into post_governor (id, post_id, governor_account_id, created_at, updated_at) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, postGovernorToCreate.getID(), postGovernorToCreate.getPostID(), postGovernorToCreate.getGovernorAccountID(), postGovernorToCreate.getCreatedAt(), postGovernorToCreate.getUpdatedAt());
+        return jdbcTemplate.update(sql, postGovernorToCreate.getId(), postGovernorToCreate.getPostId(), postGovernorToCreate.getGovernorAccountId(), postGovernorToCreate.getCreatedAt(), postGovernorToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneByID(UUID ID, PostGovernor postGovernorToUpdate) {
+    public Integer updateOneById(UUID Id, PostGovernor postGovernorToUpdate) {
         String sql = "update post_governor set post_id = ?, governor_account_id = ?, created_at = ?, updated_at = ? where id = ?";
-        return jdbcTemplate.update(sql, postGovernorToUpdate.getPostID(), postGovernorToUpdate.getGovernorAccountID(), postGovernorToUpdate.getCreatedAt(), postGovernorToUpdate.getUpdatedAt(), ID);
+        return jdbcTemplate.update(sql, postGovernorToUpdate.getPostId(), postGovernorToUpdate.getGovernorAccountId(), postGovernorToUpdate.getCreatedAt(), postGovernorToUpdate.getUpdatedAt(), Id);
     }
 
-    public Integer deleteOneByID(UUID ID) {
+    public Integer deleteOneById(UUID Id) {
         String sql = "delete from post_governor where id = ?";
-        return jdbcTemplate.update(sql, ID);
+        return jdbcTemplate.update(sql, Id);
     }
 }

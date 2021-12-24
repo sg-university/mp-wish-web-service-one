@@ -24,15 +24,15 @@ public class CommentUpRepository {
     }
 
     public List<CommentUp> readAll(Map<String, String> filter) {
-        String sql = "select id, post_id as postID, upper_account_id as upperAccountID, created_at, updated_at from comment_up";
+        String sql = "select id, post_id, upper_account_id, created_at, updated_at from comment_up";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(CommentUp.class), filter.values().toArray());
     }
 
-    public CommentUp readOneByID(UUID ID) {
-        String sql = "select id, post_id as postID, upper_account_id as upperAccountID, created_at, updated_at from comment_up where id = ?";
+    public CommentUp readOneById(UUID Id) {
+        String sql = "select id, post_id, upper_account_id, created_at, updated_at from comment_up where id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(CommentUp.class), ID);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(CommentUp.class), Id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -40,16 +40,16 @@ public class CommentUpRepository {
 
     public Integer createOne(CommentUp commentUpToCreate) {
         String sql = "insert into comment_up (id, post_id, upper_account_id, created_at, updated_at) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, commentUpToCreate.getID(), commentUpToCreate.getPostID(), commentUpToCreate.getUpperAccountID(), commentUpToCreate.getCreatedAt(), commentUpToCreate.getUpdatedAt());
+        return jdbcTemplate.update(sql, commentUpToCreate.getId(), commentUpToCreate.getPostId(), commentUpToCreate.getUpperAccountId(), commentUpToCreate.getCreatedAt(), commentUpToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneByID(UUID ID, CommentUp commentUpToUpdate) {
+    public Integer updateOneById(UUID Id, CommentUp commentUpToUpdate) {
         String sql = "update comment_up set post_id = ?, upper_account_id = ?, created_at = ?, updated_at = ? where id = ?";
-        return jdbcTemplate.update(sql, commentUpToUpdate.getPostID(), commentUpToUpdate.getUpperAccountID(), commentUpToUpdate.getCreatedAt(), commentUpToUpdate.getUpdatedAt(), ID);
+        return jdbcTemplate.update(sql, commentUpToUpdate.getPostId(), commentUpToUpdate.getUpperAccountId(), commentUpToUpdate.getCreatedAt(), commentUpToUpdate.getUpdatedAt(), Id);
     }
 
-    public Integer deleteOneByID(UUID ID) {
+    public Integer deleteOneById(UUID Id) {
         String sql = "delete from comment_up where id = ?";
-        return jdbcTemplate.update(sql, ID);
+        return jdbcTemplate.update(sql, Id);
     }
 }

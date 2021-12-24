@@ -33,11 +33,11 @@ public class UpService {
         return new Result<>(content, status);
     }
 
-    public Result<PostUp> readOneByID(UUID ID) {
+    public Result<PostUp> readOneById(UUID Id) {
         PostUp content = null;
         String status = null;
         try {
-            content = postUpRepository.readOneByID(ID);
+            content = postUpRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -54,7 +54,7 @@ public class UpService {
         PostUp content = null;
         String status = null;
         try {
-            postUpToCreate.setID(UUID.randomUUID());
+            postUpToCreate.setId(UUID.randomUUID());
             postUpToCreate.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             postUpToCreate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Integer rowAffected = postUpRepository.createOne(postUpToCreate);
@@ -67,16 +67,16 @@ public class UpService {
         return new Result<>(content, status);
     }
 
-    public Result<PostUp> updateOneByID(UUID ID, PostUp postUpToUpdate) {
+    public Result<PostUp> updateOneById(UUID Id, PostUp postUpToUpdate) {
         PostUp content = null;
         String status = null;
         try {
-            content = postUpRepository.readOneByID(ID);
+            content = postUpRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
                 postUpToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = postUpRepository.updateOneByID(ID, postUpToUpdate);
+                Integer rowAffected = postUpRepository.updateOneById(Id, postUpToUpdate);
                 content = postUpToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,15 @@ public class UpService {
         return new Result<>(content, status);
     }
 
-    public Result<PostUp> deleteOneByID(UUID ID) {
+    public Result<PostUp> deleteOneById(UUID Id) {
         PostUp content = null;
         String status = null;
         try {
-            content = postUpRepository.readOneByID(ID);
+            content = postUpRepository.readOneById(Id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = postUpRepository.deleteOneByID(ID);
+                Integer rowAffected = postUpRepository.deleteOneById(Id);
                 status = "deleted";
             }
         } catch (Exception e) {
