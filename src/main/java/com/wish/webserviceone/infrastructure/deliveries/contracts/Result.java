@@ -3,7 +3,7 @@ package com.wish.webserviceone.infrastructure.deliveries.contracts;
 public class Result<T> {
     private T content;
     private String status;
-    private String code;
+    private Integer code;
 
     public Result() {
     }
@@ -13,7 +13,7 @@ public class Result<T> {
         this.status = status;
     }
 
-    public Result(T content, String status, String code) {
+    public Result(T content, String status, Integer code) {
         this.content = content;
         this.status = status;
         this.code = code;
@@ -35,11 +35,11 @@ public class Result<T> {
         this.status = status;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 }

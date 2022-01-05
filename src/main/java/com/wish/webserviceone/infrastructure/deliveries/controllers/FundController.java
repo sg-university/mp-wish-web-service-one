@@ -39,7 +39,7 @@ public class FundController {
             case "read" -> HttpStatus.OK;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class FundController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -71,7 +71,7 @@ public class FundController {
             case "created" -> HttpStatus.CREATED;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -88,7 +88,7 @@ public class FundController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -105,7 +105,7 @@ public class FundController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -122,7 +122,7 @@ public class FundController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

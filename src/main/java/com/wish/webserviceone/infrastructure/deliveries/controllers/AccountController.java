@@ -39,7 +39,7 @@ public class AccountController {
             case "read" -> HttpStatus.OK;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class AccountController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -72,7 +72,7 @@ public class AccountController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -91,7 +91,7 @@ public class AccountController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -110,7 +110,7 @@ public class AccountController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -127,7 +127,7 @@ public class AccountController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        result.setCode(httpStatus.toString());
+        result.setCode(httpStatus.value());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
