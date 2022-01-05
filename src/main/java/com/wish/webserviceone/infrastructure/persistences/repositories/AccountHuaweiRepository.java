@@ -29,10 +29,10 @@ public class AccountHuaweiRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(AccountHuawei.class), filter.values().toArray());
     }
 
-    public AccountHuawei readOneById(UUID Id) {
+    public AccountHuawei readOneById(UUID id) {
         String sql = "select id, account_id, union_id, open_id, authorization_code, access_token, created_at, updated_at from account_huawei where id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(AccountHuawei.class), Id);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(AccountHuawei.class), id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
@@ -44,9 +44,9 @@ public class AccountHuaweiRepository {
         return jdbcTemplate.update(sql, accountToCreate.getId(), accountToCreate.getAccountId(), accountToCreate.getUnionId(), accountToCreate.getOpenId(), accountToCreate.getAuthorizationCode(), accountToCreate.getAccessToken(), accountToCreate.getCreatedAt(), accountToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneById(UUID Id, AccountHuawei accountToUpdate) {
+    public Integer updateOneById(UUID id, AccountHuawei accountToUpdate) {
         String sql = "update account_huawei set account_id=?, union_id=?, open_id=?, authorization_code=?, access_token=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, accountToUpdate.getAccountId(), accountToUpdate.getUnionId(), accountToUpdate.getOpenId(), accountToUpdate.getAuthorizationCode(), accountToUpdate.getAccessToken(), accountToUpdate.getCreatedAt(), accountToUpdate.getUpdatedAt(), Id);
+        return jdbcTemplate.update(sql, accountToUpdate.getAccountId(), accountToUpdate.getUnionId(), accountToUpdate.getOpenId(), accountToUpdate.getAuthorizationCode(), accountToUpdate.getAccessToken(), accountToUpdate.getCreatedAt(), accountToUpdate.getUpdatedAt(), id);
     }
 
     public Integer deleteOneById(UUID I) {

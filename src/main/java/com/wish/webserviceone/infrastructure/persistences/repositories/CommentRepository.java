@@ -29,10 +29,10 @@ public class CommentRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Comment.class), filter.values().toArray());
     }
 
-    public Comment readOneById(UUID Id) {
+    public Comment readOneById(UUID id) {
         String sql = "select id, creator_account_id, post_id, content, created_at, updated_at from comment where id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Comment.class), Id);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Comment.class), id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
@@ -44,14 +44,14 @@ public class CommentRepository {
         return jdbcTemplate.update(sql, commentToCreate.getId(), commentToCreate.getCreatorAccountId(), commentToCreate.getContent(), commentToCreate.getCreatedAt(), commentToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneById(UUID Id, Comment commentToUpdate) {
+    public Integer updateOneById(UUID id, Comment commentToUpdate) {
         String sql = "update comment set creator_account_id=?, post_id=?, content=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, commentToUpdate.getCreatorAccountId(), commentToUpdate.getContent(), commentToUpdate.getCreatedAt(), commentToUpdate.getUpdatedAt(), Id);
+        return jdbcTemplate.update(sql, commentToUpdate.getCreatorAccountId(), commentToUpdate.getContent(), commentToUpdate.getCreatedAt(), commentToUpdate.getUpdatedAt(), id);
     }
 
-    public Integer deleteOneById(UUID Id) {
+    public Integer deleteOneById(UUID id) {
         String sql = "delete from comment where id=?";
-        return jdbcTemplate.update(sql, Id);
+        return jdbcTemplate.update(sql, id);
     }
 
 }

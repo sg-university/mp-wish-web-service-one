@@ -29,10 +29,10 @@ public class PostGovernorRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), filter.values().toArray());
     }
 
-    public PostGovernor readOneById(UUID Id) {
+    public PostGovernor readOneById(UUID id) {
         String sql = "select id, post_id, governor_account_id, created_at, updated_at from post_governor where id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), Id);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -43,13 +43,13 @@ public class PostGovernorRepository {
         return jdbcTemplate.update(sql, postGovernorToCreate.getId(), postGovernorToCreate.getPostId(), postGovernorToCreate.getGovernorAccountId(), postGovernorToCreate.getCreatedAt(), postGovernorToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneById(UUID Id, PostGovernor postGovernorToUpdate) {
+    public Integer updateOneById(UUID id, PostGovernor postGovernorToUpdate) {
         String sql = "update post_governor set post_id = ?, governor_account_id = ?, created_at = ?, updated_at = ? where id = ?";
-        return jdbcTemplate.update(sql, postGovernorToUpdate.getPostId(), postGovernorToUpdate.getGovernorAccountId(), postGovernorToUpdate.getCreatedAt(), postGovernorToUpdate.getUpdatedAt(), Id);
+        return jdbcTemplate.update(sql, postGovernorToUpdate.getPostId(), postGovernorToUpdate.getGovernorAccountId(), postGovernorToUpdate.getCreatedAt(), postGovernorToUpdate.getUpdatedAt(), id);
     }
 
-    public Integer deleteOneById(UUID Id) {
+    public Integer deleteOneById(UUID id) {
         String sql = "delete from post_governor where id = ?";
-        return jdbcTemplate.update(sql, Id);
+        return jdbcTemplate.update(sql, id);
     }
 }

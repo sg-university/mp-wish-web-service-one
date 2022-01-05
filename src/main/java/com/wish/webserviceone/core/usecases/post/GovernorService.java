@@ -33,11 +33,11 @@ public class GovernorService {
         return new Result<>(content, status);
     }
 
-    public Result<PostGovernor> readOneById(UUID Id) {
+    public Result<PostGovernor> readOneById(UUID id) {
         PostGovernor content = null;
         String status = null;
         try {
-            content = postGovernorRepository.readOneById(Id);
+            content = postGovernorRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -67,16 +67,16 @@ public class GovernorService {
         return new Result<>(content, status);
     }
 
-    public Result<PostGovernor> updateOneById(UUID Id, PostGovernor postGovernorToUpdate) {
+    public Result<PostGovernor> updateOneById(UUID id, PostGovernor postGovernorToUpdate) {
         PostGovernor content = null;
         String status = null;
         try {
-            content = postGovernorRepository.readOneById(Id);
+            content = postGovernorRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
                 postGovernorToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = postGovernorRepository.updateOneById(Id, postGovernorToUpdate);
+                Integer rowAffected = postGovernorRepository.updateOneById(id, postGovernorToUpdate);
                 content = postGovernorToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,44 @@ public class GovernorService {
         return new Result<>(content, status);
     }
 
-    public Result<PostGovernor> deleteOneById(UUID Id) {
+    public Result<PostGovernor> patchOneById(UUID id, PostGovernor postGovernorToPatch) {
         PostGovernor content = null;
         String status = null;
         try {
-            content = postGovernorRepository.readOneById(Id);
+            Result<PostGovernor> readResult = this.readOneById(id);
+            status = readResult.getStatus();
+
+            if (status.equals("read")) {
+                PostGovernor postGovernorToUpdate = readResult.getContent();
+                postGovernorToUpdate.setPostId(postGovernorToPatch.getPostId() == null ? postGovernorToUpdate.getPostId() : postGovernorToPatch.getPostId());
+                postGovernorToUpdate.setGovernorAccountId(postGovernorToPatch.getGovernorAccountId() == null ? postGovernorToUpdate.getGovernorAccountId() : postGovernorToPatch.getGovernorAccountId());
+                postGovernorToUpdate.setCreatedAt(postGovernorToPatch.getCreatedAt() == null ? postGovernorToUpdate.getCreatedAt() : postGovernorToPatch.getCreatedAt());
+                postGovernorToUpdate.setUpdatedAt(postGovernorToPatch.getUpdatedAt() == null ? postGovernorToUpdate.getUpdatedAt() : postGovernorToPatch.getUpdatedAt());
+
+                Result<PostGovernor> updateResult = this.updateOneById(id, postGovernorToUpdate);
+                status = updateResult.getStatus();
+
+                if (updateResult.getStatus().equals("updated")) {
+                    content = updateResult.getContent();
+                    status = "patched";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = "error";
+        }
+        return new Result<>(content, status);
+    }
+
+    public Result<PostGovernor> deleteOneById(UUID id) {
+        PostGovernor content = null;
+        String status = null;
+        try {
+            content = postGovernorRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = postGovernorRepository.deleteOneById(Id);
+                Integer rowAffected = postGovernorRepository.deleteOneById(id);
                 status = "deleted";
             }
         } catch (Exception e) {

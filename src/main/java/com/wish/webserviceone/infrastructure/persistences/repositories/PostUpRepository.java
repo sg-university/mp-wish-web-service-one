@@ -29,10 +29,10 @@ public class PostUpRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(PostUp.class), filter.values().toArray());
     }
 
-    public PostUp readOneById(UUID Id) {
+    public PostUp readOneById(UUID id) {
         String sql = "select id, post_id, upper_account_id, created_at, updated_at from post_up where id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostUp.class), Id);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(PostUp.class), id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -43,13 +43,13 @@ public class PostUpRepository {
         return jdbcTemplate.update(sql, postUpToCreate.getId(), postUpToCreate.getPostId(), postUpToCreate.getUpperAccountId(), postUpToCreate.getCreatedAt(), postUpToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneById(UUID Id, PostUp postUpToUpdate) {
+    public Integer updateOneById(UUID id, PostUp postUpToUpdate) {
         String sql = "update post_up set post_id = ?, upper_account_id = ?, created_at = ?, updated_at = ? where id = ?";
-        return jdbcTemplate.update(sql, postUpToUpdate.getPostId(), postUpToUpdate.getUpperAccountId(), postUpToUpdate.getCreatedAt(), postUpToUpdate.getUpdatedAt(), Id);
+        return jdbcTemplate.update(sql, postUpToUpdate.getPostId(), postUpToUpdate.getUpperAccountId(), postUpToUpdate.getCreatedAt(), postUpToUpdate.getUpdatedAt(), id);
     }
 
-    public Integer deleteOneById(UUID Id) {
+    public Integer deleteOneById(UUID id) {
         String sql = "delete from post_up where id = ?";
-        return jdbcTemplate.update(sql, Id);
+        return jdbcTemplate.update(sql, id);
     }
 }

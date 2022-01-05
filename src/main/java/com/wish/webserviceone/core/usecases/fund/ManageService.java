@@ -33,11 +33,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Fund> readOneById(UUID Id) {
+    public Result<Fund> readOneById(UUID id) {
         Fund content = null;
         String status = null;
         try {
-            content = fundRepository.readOneById(Id);
+            content = fundRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -67,16 +67,16 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Fund> updateOneById(UUID Id, Fund fundToUpdate) {
+    public Result<Fund> updateOneById(UUID id, Fund fundToUpdate) {
         Fund content = null;
         String status = null;
         try {
-            content = fundRepository.readOneById(Id);
+            content = fundRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
                 fundToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = fundRepository.updateOneById(Id, fundToUpdate);
+                Integer rowAffected = fundRepository.updateOneById(id, fundToUpdate);
                 content = fundToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,46 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Fund> deleteOneById(UUID Id) {
+    public Result<Fund> patchOneById(UUID id, Fund fundToPatch) {
         Fund content = null;
         String status = null;
         try {
-            content = fundRepository.readOneById(Id);
+            Result<Fund> readResult = this.readOneById(id);
+            status = readResult.getStatus();
+
+            if (status.equals("read")) {
+                Fund fundToUpdate = readResult.getContent();
+                fundToUpdate.setPostId(fundToPatch.getPostId() == null ? fundToUpdate.getPostId() : fundToPatch.getPostId());
+                fundToUpdate.setSponsorAccountId(fundToPatch.getSponsorAccountId() == null ? fundToUpdate.getSponsorAccountId() : fundToPatch.getSponsorAccountId());
+                fundToUpdate.setContent(fundToPatch.getContent() == null ? fundToUpdate.getContent() : fundToPatch.getContent());
+                fundToUpdate.setAmount(fundToPatch.getAmount() == null ? fundToUpdate.getAmount() : fundToPatch.getAmount());
+                fundToUpdate.setCreatedAt(fundToPatch.getCreatedAt() == null ? fundToUpdate.getCreatedAt() : fundToPatch.getCreatedAt());
+                fundToUpdate.setUpdatedAt(fundToPatch.getUpdatedAt() == null ? fundToUpdate.getUpdatedAt() : fundToPatch.getUpdatedAt());
+
+                Result<Fund> updateResult = this.updateOneById(id, fundToUpdate);
+                status = updateResult.getStatus();
+
+                if (updateResult.getStatus().equals("updated")) {
+                    content = updateResult.getContent();
+                    status = "patched";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = "error";
+        }
+        return new Result<>(content, status);
+    }
+
+    public Result<Fund> deleteOneById(UUID id) {
+        Fund content = null;
+        String status = null;
+        try {
+            content = fundRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = fundRepository.deleteOneById(Id);
+                Integer rowAffected = fundRepository.deleteOneById(id);
                 status = "deleted";
             }
         } catch (Exception e) {

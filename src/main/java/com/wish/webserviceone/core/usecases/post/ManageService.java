@@ -33,11 +33,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Post> readOneById(UUID Id) {
+    public Result<Post> readOneById(UUID id) {
         Post content = null;
         String status = null;
         try {
-            content = postRepository.readOneById(Id);
+            content = postRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -67,16 +67,16 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Post> updateOneById(UUID Id, Post postToUpdate) {
+    public Result<Post> updateOneById(UUID id, Post postToUpdate) {
         Post content = null;
         String status = null;
         try {
-            content = postRepository.readOneById(Id);
+            content = postRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
                 postToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = postRepository.updateOneById(Id, postToUpdate);
+                Integer rowAffected = postRepository.updateOneById(id, postToUpdate);
                 content = postToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,45 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Post> deleteOneById(UUID Id) {
+    public Result<Post> patchOneById(UUID id, Post postToPatch) {
         Post content = null;
         String status = null;
         try {
-            content = postRepository.readOneById(Id);
+            Result<Post> readResult = this.readOneById(id);
+            status = readResult.getStatus();
+
+            if (status.equals("read")) {
+                Post postToUpdate = readResult.getContent();
+                postToUpdate.setCreatorAccountId(postToPatch.getCreatorAccountId() == null ? postToUpdate.getCreatorAccountId() : postToPatch.getCreatorAccountId());
+                postToUpdate.setTitle(postToPatch.getTitle() == null ? postToUpdate.getTitle() : postToPatch.getTitle());
+                postToUpdate.setContent(postToPatch.getContent() == null ? postToUpdate.getContent() : postToPatch.getContent());
+                postToUpdate.setCreatedAt(postToPatch.getCreatedAt() == null ? postToUpdate.getCreatedAt() : postToPatch.getCreatedAt());
+                postToUpdate.setUpdatedAt(postToPatch.getUpdatedAt() == null ? postToUpdate.getUpdatedAt() : postToPatch.getUpdatedAt());
+
+                Result<Post> updateResult = this.updateOneById(id, postToUpdate);
+                status = updateResult.getStatus();
+
+                if (updateResult.getStatus().equals("updated")) {
+                    content = updateResult.getContent();
+                    status = "patched";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = "error";
+        }
+        return new Result<>(content, status);
+    }
+
+    public Result<Post> deleteOneById(UUID id) {
+        Post content = null;
+        String status = null;
+        try {
+            content = postRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = postRepository.deleteOneById(Id);
+                Integer rowAffected = postRepository.deleteOneById(id);
                 status = "deleted";
             }
         } catch (Exception e) {

@@ -33,11 +33,11 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Comment> readOneById(UUID Id) {
+    public Result<Comment> readOneById(UUID id) {
         Comment content = null;
         String status = null;
         try {
-            content = commentRepository.readOneById(Id);
+            content = commentRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -67,16 +67,16 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Comment> updateOneById(UUID Id, Comment commentToUpdate) {
+    public Result<Comment> updateOneById(UUID id, Comment commentToUpdate) {
         Comment content = null;
         String status = null;
         try {
-            content = commentRepository.readOneById(Id);
+            content = commentRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
                 commentToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                Integer rowAffected = commentRepository.updateOneById(Id, commentToUpdate);
+                Integer rowAffected = commentRepository.updateOneById(id, commentToUpdate);
                 content = commentToUpdate;
                 status = "updated";
             }
@@ -87,15 +87,45 @@ public class ManageService {
         return new Result<>(content, status);
     }
 
-    public Result<Comment> deleteOneById(UUID Id) {
+    public Result<Comment> patchOneById(UUID id, Comment commentToPatch) {
         Comment content = null;
         String status = null;
         try {
-            content = commentRepository.readOneById(Id);
+            Result<Comment> readResult = this.readOneById(id);
+            status = readResult.getStatus();
+
+            if (status.equals("read")) {
+                Comment commentToUpdate = readResult.getContent();
+                commentToUpdate.setPostId(commentToPatch.getPostId() == null ? commentToUpdate.getPostId() : commentToPatch.getPostId());
+                commentToUpdate.setCreatorAccountId(commentToPatch.getCreatorAccountId() == null ? commentToUpdate.getCreatorAccountId() : commentToPatch.getCreatorAccountId());
+                commentToUpdate.setContent(commentToPatch.getContent() == null ? commentToUpdate.getContent() : commentToPatch.getContent());
+                commentToUpdate.setCreatedAt(commentToPatch.getCreatedAt() == null ? commentToUpdate.getCreatedAt() : commentToPatch.getCreatedAt());
+                commentToUpdate.setUpdatedAt(commentToPatch.getUpdatedAt() == null ? commentToUpdate.getUpdatedAt() : commentToPatch.getUpdatedAt());
+
+                Result<Comment> updateResult = this.updateOneById(id, commentToUpdate);
+                status = updateResult.getStatus();
+
+                if (updateResult.getStatus().equals("updated")) {
+                    content = updateResult.getContent();
+                    status = "patched";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = "error";
+        }
+        return new Result<>(content, status);
+    }
+
+    public Result<Comment> deleteOneById(UUID id) {
+        Comment content = null;
+        String status = null;
+        try {
+            content = commentRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = commentRepository.deleteOneById(Id);
+                Integer rowAffected = commentRepository.deleteOneById(id);
                 status = "deleted";
             }
         } catch (Exception e) {

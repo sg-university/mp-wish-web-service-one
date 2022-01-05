@@ -34,11 +34,11 @@ public class HuaweiService {
         return new Result<>(content, status);
     }
 
-    public Result<AccountHuawei> readOneById(UUID Id) {
+    public Result<AccountHuawei> readOneById(UUID id) {
         AccountHuawei content = null;
         String status = null;
         try {
-            content = accountHuaweiRepository.readOneById(Id);
+            content = accountHuaweiRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -95,11 +95,11 @@ public class HuaweiService {
         return new Result<>(content, status);
     }
 
-    public Result<AccountHuawei> updateOneById(UUID Id, AccountHuawei accountToUpdate) {
+    public Result<AccountHuawei> updateOneById(UUID id, AccountHuawei accountToUpdate) {
         AccountHuawei content = null;
         String status = null;
         try {
-            content = accountHuaweiRepository.readOneById(Id);
+            content = accountHuaweiRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
@@ -108,7 +108,7 @@ public class HuaweiService {
                     status = "exists";
                 } else {
                     accountToUpdate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-                    Integer rowAffected = accountHuaweiRepository.updateOneById(Id, accountToUpdate);
+                    Integer rowAffected = accountHuaweiRepository.updateOneById(id, accountToUpdate);
                     content = accountToUpdate;
                     status = "updated";
                 }
@@ -120,15 +120,15 @@ public class HuaweiService {
         return new Result<>(content, status);
     }
 
-    public Result<AccountHuawei> deleteOneById(UUID Id) {
+    public Result<AccountHuawei> deleteOneById(UUID id) {
         AccountHuawei content = null;
         String status = null;
         try {
-            content = accountHuaweiRepository.readOneById(Id);
+            content = accountHuaweiRepository.readOneById(id);
             if (content == null) {
                 status = "not_found";
             } else {
-                Integer rowAffected = accountHuaweiRepository.deleteOneById(Id);
+                Integer rowAffected = accountHuaweiRepository.deleteOneById(id);
                 status = "deleted";
             }
         } catch (Exception e) {

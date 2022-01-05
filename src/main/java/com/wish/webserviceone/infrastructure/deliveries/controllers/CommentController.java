@@ -48,8 +48,8 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Result<Comment>> readOneById(@PathVariable("id") UUID Id) {
-        Result<Comment> result = manageService.readOneById(Id);
+    public ResponseEntity<Result<Comment>> readOneById(@PathVariable("id") UUID id) {
+        Result<Comment> result = manageService.readOneById(id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "read" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -78,10 +78,26 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Result<Comment>> updateOneById(@PathVariable("id") UUID Id, @RequestBody Comment commentToUpdate) {
-        Result<Comment> result = manageService.updateOneById(Id, commentToUpdate);
+    public ResponseEntity<Result<Comment>> updateOneById(@PathVariable("id") UUID id, @RequestBody Comment commentToUpdate) {
+        Result<Comment> result = manageService.updateOneById(id, commentToUpdate);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "updated" -> HttpStatus.OK;
+            case "not_found" -> HttpStatus.NOT_FOUND;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return new ResponseEntity<>(result, httpStatus);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "patched", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "404", description = "not_found", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<Result<Comment>> patchOneById(@PathVariable("id") UUID id, @RequestBody Comment commentToPatch) {
+        Result<Comment> result = manageService.patchOneById(id, commentToPatch);
+        HttpStatus httpStatus = switch (result.getStatus()) {
+            case "patched" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
@@ -94,8 +110,8 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<Comment>> deleteOneById(@PathVariable("id") UUID Id) {
-        Result<Comment> result = manageService.deleteOneById(Id);
+    public ResponseEntity<Result<Comment>> deleteOneById(@PathVariable("id") UUID id) {
+        Result<Comment> result = manageService.deleteOneById(id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "deleted" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;

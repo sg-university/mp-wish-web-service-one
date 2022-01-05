@@ -48,8 +48,8 @@ public class AccountController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Result<Account>> readOneById(@PathVariable("id") UUID Id) {
-        Result<Account> result = manageService.readOneById(Id);
+    public ResponseEntity<Result<Account>> readOneById(@PathVariable("id") UUID id) {
+        Result<Account> result = manageService.readOneById(id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "read" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -80,10 +80,28 @@ public class AccountController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Result<Account>> updateOneById(@PathVariable("id") UUID Id, @RequestBody Account accountToUpdate) {
-        Result<Account> result = manageService.updateOneById(Id, accountToUpdate);
+    public ResponseEntity<Result<Account>> updateOneById(@PathVariable("id") UUID id, @RequestBody Account accountToUpdate) {
+        Result<Account> result = manageService.updateOneById(id, accountToUpdate);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "updated" -> HttpStatus.OK;
+            case "not_found" -> HttpStatus.NOT_FOUND;
+            case "exists" -> HttpStatus.CONFLICT;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return new ResponseEntity<>(result, httpStatus);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "patched", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "404", description = "not_found", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "409", description = "exists", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<Result<Account>> patchOneById(@PathVariable("id") UUID id, @RequestBody Account accountToPatch) {
+        Result<Account> result = manageService.patchOneById(id, accountToPatch);
+        HttpStatus httpStatus = switch (result.getStatus()) {
+            case "patched" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
@@ -97,8 +115,8 @@ public class AccountController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<Account>> deleteOneById(@PathVariable("id") UUID Id) {
-        Result<Account> result = manageService.deleteOneById(Id);
+    public ResponseEntity<Result<Account>> deleteOneById(@PathVariable("id") UUID id) {
+        Result<Account> result = manageService.deleteOneById(id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "deleted" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;

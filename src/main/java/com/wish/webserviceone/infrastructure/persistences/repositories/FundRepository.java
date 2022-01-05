@@ -29,10 +29,10 @@ public class FundRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Fund.class), filter.values().toArray());
     }
 
-    public Fund readOneById(UUID Id) {
+    public Fund readOneById(UUID id) {
         String sql = "select id, post_id, sponsor_account_id, amount, created_at, updated_at from fund where id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Fund.class), Id);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Fund.class), id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
@@ -44,13 +44,13 @@ public class FundRepository {
         return jdbcTemplate.update(sql, fundToCreate.getId(), fundToCreate.getPostId(), fundToCreate.getSponsorAccountId(), fundToCreate.getAmount(), fundToCreate.getCreatedAt(), fundToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneById(UUID Id, Fund fundToUpdate) {
+    public Integer updateOneById(UUID id, Fund fundToUpdate) {
         String sql = "update fund set post_id=?, sponsor_account_id=?, amount=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, fundToUpdate.getPostId(), fundToUpdate.getSponsorAccountId(), fundToUpdate.getAmount(), fundToUpdate.getCreatedAt(), fundToUpdate.getUpdatedAt(), Id);
+        return jdbcTemplate.update(sql, fundToUpdate.getPostId(), fundToUpdate.getSponsorAccountId(), fundToUpdate.getAmount(), fundToUpdate.getCreatedAt(), fundToUpdate.getUpdatedAt(), id);
     }
 
-    public Integer deleteOneById(UUID Id) {
+    public Integer deleteOneById(UUID id) {
         String sql = "delete from fund where id=?";
-        return jdbcTemplate.update(sql, Id);
+        return jdbcTemplate.update(sql, id);
     }
 }

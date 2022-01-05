@@ -48,8 +48,8 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Result<Post>> readOneById(@PathVariable("id") UUID Id) {
-        Result<Post> result = manageService.readOneById(Id);
+    public ResponseEntity<Result<Post>> readOneById(@PathVariable("id") UUID id) {
+        Result<Post> result = manageService.readOneById(id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "read" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
@@ -78,10 +78,26 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Result<Post>> updateOneById(@PathVariable("id") UUID Id, @RequestBody Post postToUpdate) {
-        Result<Post> result = manageService.updateOneById(Id, postToUpdate);
+    public ResponseEntity<Result<Post>> updateOneById(@PathVariable("id") UUID id, @RequestBody Post postToUpdate) {
+        Result<Post> result = manageService.updateOneById(id, postToUpdate);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "updated" -> HttpStatus.OK;
+            case "not_found" -> HttpStatus.NOT_FOUND;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return new ResponseEntity<>(result, httpStatus);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "patched", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "404", description = "not_found", content = @Content(schema = @Schema(implementation = Result.class))),
+            @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<Result<Post>> patchOneById(@PathVariable("id") UUID id, @RequestBody Post postToPatch) {
+        Result<Post> result = manageService.patchOneById(id, postToPatch);
+        HttpStatus httpStatus = switch (result.getStatus()) {
+            case "patched" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
@@ -94,8 +110,8 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "error", content = @Content(schema = @Schema(implementation = Result.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<Post>> deleteOneById(@PathVariable("id") UUID Id) {
-        Result<Post> result = manageService.deleteOneById(Id);
+    public ResponseEntity<Result<Post>> deleteOneById(@PathVariable("id") UUID id) {
+        Result<Post> result = manageService.deleteOneById(id);
         HttpStatus httpStatus = switch (result.getStatus()) {
             case "deleted" -> HttpStatus.OK;
             case "not_found" -> HttpStatus.NOT_FOUND;

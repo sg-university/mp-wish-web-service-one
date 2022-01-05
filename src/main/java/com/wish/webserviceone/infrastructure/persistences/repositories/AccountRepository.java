@@ -29,10 +29,10 @@ public class AccountRepository {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Account.class), filter.values().toArray());
     }
 
-    public Account readOneById(UUID Id) {
+    public Account readOneById(UUID id) {
         String sql = "select id, username, name, email, password, created_at, updated_at from account where id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Account.class), Id);
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Account.class), id);
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return null;
@@ -74,14 +74,14 @@ public class AccountRepository {
         return jdbcTemplate.update(sql, accountToCreate.getId(), accountToCreate.getUsername(), accountToCreate.getName(), accountToCreate.getEmail(), accountToCreate.getPassword(), accountToCreate.getCreatedAt(), accountToCreate.getUpdatedAt());
     }
 
-    public Integer updateOneById(UUID Id, Account accountToUpdate) {
+    public Integer updateOneById(UUID id, Account accountToUpdate) {
         String sql = "update account set username=?, name=?, email=?, password=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, accountToUpdate.getUsername(), accountToUpdate.getName(), accountToUpdate.getEmail(), accountToUpdate.getPassword(), accountToUpdate.getCreatedAt(), accountToUpdate.getUpdatedAt(), Id);
+        return jdbcTemplate.update(sql, accountToUpdate.getUsername(), accountToUpdate.getName(), accountToUpdate.getEmail(), accountToUpdate.getPassword(), accountToUpdate.getCreatedAt(), accountToUpdate.getUpdatedAt(), id);
     }
 
-    public Integer deleteOneById(UUID Id) {
+    public Integer deleteOneById(UUID id) {
         String sql = "delete from account where id=?";
-        return jdbcTemplate.update(sql, Id);
+        return jdbcTemplate.update(sql, id);
     }
 
 }
