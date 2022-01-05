@@ -45,7 +45,8 @@ public class AuthenticationController {
             case "invalid_credentials" -> HttpStatus.FORBIDDEN;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
@@ -62,7 +63,8 @@ public class AuthenticationController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
@@ -81,7 +83,8 @@ public class AuthenticationController {
             case "invalid_credentials" -> HttpStatus.FORBIDDEN;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
@@ -98,6 +101,7 @@ public class AuthenticationController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

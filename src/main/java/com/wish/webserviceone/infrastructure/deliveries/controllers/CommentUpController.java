@@ -39,7 +39,8 @@ public class CommentUpController {
             case "read" -> HttpStatus.OK;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -55,7 +56,8 @@ public class CommentUpController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -69,7 +71,8 @@ public class CommentUpController {
             case "created" -> HttpStatus.CREATED;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -85,7 +88,8 @@ public class CommentUpController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -101,7 +105,8 @@ public class CommentUpController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -117,6 +122,7 @@ public class CommentUpController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

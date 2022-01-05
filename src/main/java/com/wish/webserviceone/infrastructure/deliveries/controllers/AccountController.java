@@ -39,7 +39,8 @@ public class AccountController {
             case "read" -> HttpStatus.OK;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -55,7 +56,8 @@ public class AccountController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -70,7 +72,8 @@ public class AccountController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -88,7 +91,8 @@ public class AccountController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -106,7 +110,8 @@ public class AccountController {
             case "exists" -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -122,6 +127,7 @@ public class AccountController {
             case "not_found" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
-        return new ResponseEntity<>(result, httpStatus);
+        result.setCode(httpStatus.toString());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
