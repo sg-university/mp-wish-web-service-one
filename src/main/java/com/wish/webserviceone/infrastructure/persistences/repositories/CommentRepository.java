@@ -1,5 +1,6 @@
 package com.wish.webserviceone.infrastructure.persistences.repositories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wish.webserviceone.infrastructure.persistences.entities.Comment;
 import com.wish.webserviceone.infrastructure.persistences.tools.QueryTool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,11 @@ public class CommentRepository {
         this.queryTool = queryTool;
     }
 
-    public List<Comment> readAll(Map<String, String> filter) {
+    public List<Comment> readAll(Map<String, String> filter) throws JsonProcessingException, IllegalAccessException {
         String sql = "select id, creator_account_id, post_id, content, created_at, updated_at from comment";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Comment.class), filter.values().toArray());
+        Map<String, Object> filterObject = queryTool.convertFilterForUnNamedParameters(filter, Comment.class);
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Comment.class), filterObject.values().toArray());
     }
 
     public Comment readOneById(UUID id) {

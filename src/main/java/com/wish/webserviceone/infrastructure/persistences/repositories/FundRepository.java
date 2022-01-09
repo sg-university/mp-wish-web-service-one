@@ -1,5 +1,7 @@
 package com.wish.webserviceone.infrastructure.persistences.repositories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wish.webserviceone.infrastructure.persistences.entities.Account;
 import com.wish.webserviceone.infrastructure.persistences.entities.Fund;
 import com.wish.webserviceone.infrastructure.persistences.tools.QueryTool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,11 @@ public class FundRepository {
         this.queryTool = queryTool;
     }
 
-    public List<Fund> readAll(Map<String, String> filter) {
+    public List<Fund> readAll(Map<String, String> filter) throws JsonProcessingException, IllegalAccessException {
         String sql = "select id, post_id, sponsor_account_id, amount, created_at, updated_at from fund";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Fund.class), filter.values().toArray());
+        Map<String, Object> filterObject = queryTool.convertFilterForUnNamedParameters(filter, Fund.class);
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Fund.class), filterObject.values().toArray());
     }
 
     public Fund readOneById(UUID id) {

@@ -1,6 +1,8 @@
 package com.wish.webserviceone.infrastructure.persistences.repositories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wish.webserviceone.infrastructure.persistences.entities.Account;
+import com.wish.webserviceone.infrastructure.persistences.entities.AccountHuawei;
 import com.wish.webserviceone.infrastructure.persistences.tools.QueryTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,10 +25,11 @@ public class AccountRepository {
         this.queryTool = queryTool;
     }
 
-    public List<Account> readAll(Map<String, String> filter) {
+    public List<Account> readAll(Map<String, String> filter) throws JsonProcessingException, IllegalAccessException {
         String sql = "select id, username, name, email, password, created_at, updated_at from account";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Account.class), filter.values().toArray());
+        Map<String, Object> filterObject = queryTool.convertFilterForUnNamedParameters(filter, Account.class);
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Account.class), filterObject.values().toArray());
     }
 
     public Account readOneById(UUID id) {

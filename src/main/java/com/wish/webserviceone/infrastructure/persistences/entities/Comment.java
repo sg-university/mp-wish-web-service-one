@@ -29,6 +29,18 @@ public class Comment {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", postId=" + postId +
+                ", creatorAccountId=" + creatorAccountId +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
     public UUID getId() {
         return id;
     }

@@ -1,5 +1,7 @@
 package com.wish.webserviceone.infrastructure.persistences.repositories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wish.webserviceone.infrastructure.persistences.entities.CommentUp;
 import com.wish.webserviceone.infrastructure.persistences.entities.PostGovernor;
 import com.wish.webserviceone.infrastructure.persistences.tools.QueryTool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,11 @@ public class PostGovernorRepository {
         this.queryTool = queryTool;
     }
 
-    public List<PostGovernor> readAll(Map<String, String> filter) {
+    public List<PostGovernor> readAll(Map<String, String> filter) throws JsonProcessingException, IllegalAccessException {
         String sql = "select id, post_id, governor_account_id, created_at, updated_at from post_governor";
         sql = queryTool.addFilterForUnNamedParameters(sql, filter);
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), filter.values().toArray());
+        Map<String, Object> filterObject = queryTool.convertFilterForUnNamedParameters(filter, PostGovernor.class);
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(PostGovernor.class), filterObject.values().toArray());
     }
 
     public PostGovernor readOneById(UUID id) {
