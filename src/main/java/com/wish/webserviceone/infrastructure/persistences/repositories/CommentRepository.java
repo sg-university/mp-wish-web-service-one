@@ -43,12 +43,12 @@ public class CommentRepository {
 
     public Integer createOne(Comment commentToCreate) {
         String sql = "insert into comment (id, creator_account_id, post_id, content, created_at, updated_at) values (?, ?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, commentToCreate.getId(), commentToCreate.getCreatorAccountId(), commentToCreate.getContent(), commentToCreate.getCreatedAt(), commentToCreate.getUpdatedAt());
+        return jdbcTemplate.update(sql, commentToCreate.getId(), commentToCreate.getCreatorAccountId(), commentToCreate.getPostId(), commentToCreate.getContent(), commentToCreate.getCreatedAt(), commentToCreate.getUpdatedAt());
     }
 
     public Integer updateOneById(UUID id, Comment commentToUpdate) {
         String sql = "update comment set creator_account_id=?, post_id=?, content=?, created_at=?, updated_at=? where id=?";
-        return jdbcTemplate.update(sql, commentToUpdate.getCreatorAccountId(), commentToUpdate.getContent(), commentToUpdate.getCreatedAt(), commentToUpdate.getUpdatedAt(), id);
+        return jdbcTemplate.update(sql, commentToUpdate.getCreatorAccountId(), commentToUpdate.getPostId(), commentToUpdate.getContent(), commentToUpdate.getCreatedAt(), commentToUpdate.getUpdatedAt(), id);
     }
 
     public Integer deleteOneById(UUID id) {
