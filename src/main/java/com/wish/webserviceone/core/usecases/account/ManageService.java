@@ -109,7 +109,7 @@ public class ManageService {
             accountToCreate.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             accountToCreate.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Account accountByUsername = accountRepository.readOneByUsername(accountToCreate.getUsername());
-            Account accountByEmail = accountRepository.readOneByUsername(accountToCreate.getEmail());
+            Account accountByEmail = accountRepository.readOneByEmail(accountToCreate.getEmail());
             if (accountByUsername != null || accountByEmail != null) {
                 status = "exists";
             } else {
